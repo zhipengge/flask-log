@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>实时日志展示</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        socket.on('log_message', function(msg) {
+            var logElement = document.getElementById('log');
+            var messageElement = document.createElement('div');
+            messageElement.textContent = msg.data;
+            logElement.appendChild(messageElement);
+            // fall to tail of log
+            logElement.scrollTop = logElement.scrollHeight;
+        });
+    </script>
+</head>
+<body>
+    <h3>实时日志展示</h3>
+    <div id="log" style="height: 200px; overflow-y: scroll;">
+    </div>
+</body>
+</html>
