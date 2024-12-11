@@ -2,18 +2,14 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO
 import threading
 import time
-import logging
 from datetime import datetime
-log_file ="tmp/app.log"
-logging.basicConfig(level=logging.INFO, filename=log_file, filemode='a', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
+
 def log_info(s: str):
-    logging.info(s)
     socketio.emit('log_message', {'data': s})
 
 def get_current_time()->str:
@@ -26,6 +22,7 @@ def write_log():
         time.sleep(1)
         cur_time = get_current_time()
         log_info(f"log at {cur_time}")
+
 
 @app.route('/')
 def index():
